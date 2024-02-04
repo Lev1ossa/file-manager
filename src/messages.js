@@ -9,5 +9,9 @@ export const showGoodByeMessage = () => {
 }
 
 export const showErrorMessage = () => {
-  console.error('Invalid input, try again!');
+  console.error('Invalid input');
+}
+
+export const showCurrentPath = (curPath) => {
+  console.log(`You are currently in ${curPath}`);
 }

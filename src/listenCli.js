@@ -1,6 +1,7 @@
 import { stdin } from 'node:process';
 import { showGoodByeMessage } from "./messages.js";
-import { EXIT_KEY } from './constants.js';
+import { CD_KEY, EXIT_KEY, LS_KEY, UP_KEY } from './constants.js';
+import { changeDir, readDir } from './fs.js';
 
 export const listenCli = () => {
   stdin.on('data', async (data) => {
@@ -8,6 +9,12 @@ export const listenCli = () => {
     if (inputData === EXIT_KEY) {
       showGoodByeMessage();
       process.exit();
+    } else if (inputData === UP_KEY) {
+      changeDir('..');
+    } else if (inputData.startsWith(CD_KEY)) {
+      changeDir(inputData.slice(CD_KEY.length).trim());
+    } else if (inputData === LS_KEY) {
+      readDir();
     }
   });
   
