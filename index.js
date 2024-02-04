@@ -1,3 +1,6 @@
-import { showGreetingsMessage } from "./src/messages.js";
+import { homedir } from 'os';
+import { app } from './app.js';
 
-showGreetingsMessage();
+export const currentPath = { curPath: homedir() }
+
+app();
