@@ -10,15 +10,23 @@ import { parseArgs } from './utils.js';
 
 export const readFileWithStream = async (pathTo) => {
   const newPath = path.resolve(currentPath.curPath, pathTo);
-  const readStream = createReadStream(newPath, 'utf-8');
-  readStream.on('data', (data) => {
-    stdout.write(data + EOL);
-    showCurrentPath(currentPath.curPath);
+  access(newPath, constants.F_OK, (err) => {
+    if (err) {
+      console.error(ERROR);
+      showCurrentPath(currentPath.curPath);
+    } else {
+      const readStream = createReadStream(newPath, 'utf-8');
+      readStream.on('data', (data) => {
+        stdout.write(data + EOL);
+        showCurrentPath(currentPath.curPath);
+      });
+      readStream.on('error', () => {
+        console.error(ERROR);
+        showCurrentPath(currentPath.curPath);
+      });
+    };
   });
-  readStream.on('error', () => {
-    console.error(ERROR);
-    showCurrentPath(newPath);
-  });
+  
 };
 
 export const createNewFile = async (fileName) => {
@@ -47,6 +55,7 @@ export const renameFile = async (argsString) => {
     access(fileOldPath, constants.F_OK, (err) => {
       if (err) {
         console.error(ERROR);
+        showCurrentPath(currentPath.curPath);
       } else {
         access(fileNewPath, constants.F_OK, (err) => {
           if (err) {
@@ -64,7 +73,7 @@ export const renameFile = async (argsString) => {
       }
     });
   } catch (err) {
-    console.error(err);
+    console.error(ERROR);
     showCurrentPath(currentPath.curPath);
   }
 };
@@ -76,9 +85,15 @@ export const copyFile = async (argsString) => {
     const fileName = path.basename(fileOldPath);
     const fileNewPath = path.resolve(args[1], fileName);
     const readStream = createReadStream(fileOldPath, 'utf-8');
-    readStream.on('error', () => console.error(ERROR));
+    readStream.on('error', () => {
+      console.error(ERROR);
+      showCurrentPath(currentPath.curPath);
+    });
     const writeStream = createWriteStream(fileNewPath);
-    writeStream.on('error', () => console.error(ERROR));
+    writeStream.on('error', () => {
+      console.error(ERROR);
+      showCurrentPath(currentPath.curPath);
+    });
     readStream.pipe(writeStream);
     showCurrentPath(currentPath.curPath);
   } catch (error) {

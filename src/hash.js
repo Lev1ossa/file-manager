@@ -11,6 +11,7 @@ export const printHash = (filename) => {
   access(fullPath, constants.F_OK, (err) => {
     if (err) {
       console.error(ERROR);
+      showCurrentPath(currentPath.curPath);
     } else {
       const hash = createHash('sha256');
       const readStream = createReadStream(fullPath);

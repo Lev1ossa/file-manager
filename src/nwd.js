@@ -7,21 +7,28 @@ import { ERROR } from './constants.js';
 
 export const changeDir = (pathTo) => {
   const newPath = path.resolve(currentPath.curPath, pathTo);
-  lstat(newPath, (_, stat) => {
-    if (stat.isFile()) {
-      console.error(ERROR);
-      showCurrentPath(currentPath.curPath);
-    } else {
-      access(newPath, constants.F_OK, (err) => {
-        if (err) {
+  access(newPath, constants.F_OK, (err) => {
+    lstat(newPath, (_, stat) => {
+      if (err) {
+        console.error(ERROR);
+        showCurrentPath(currentPath.curPath);
+      } else {
+        if (stat.isFile()) {
           console.error(ERROR);
           showCurrentPath(currentPath.curPath);
         } else {
-          currentPath.curPath = newPath;
-          showCurrentPath(newPath);
-        }
-      });
-    }
+          access(newPath, constants.F_OK, (err) => {
+            if (err) {
+              console.error(ERROR);
+              showCurrentPath(currentPath.curPath);
+            } else {
+              currentPath.curPath = newPath;
+              showCurrentPath(newPath);
+            }
+          });
+        };
+      };
+    });
   });
 };
 

@@ -9,6 +9,7 @@ export const printEOL = () => {
 
 export const printCPUS = () => {
   const currentCPUS = cpus().map((item, idx) => {return {number: idx + 1, model: item.model, clockRate: `${(item.speed / 1000).toFixed(2)} GHz`}});
+  console.log(`Number of CPUS: ${currentCPUS.length}`);
   console.table(currentCPUS);
   showCurrentPath(currentPath.curPath);
 };
