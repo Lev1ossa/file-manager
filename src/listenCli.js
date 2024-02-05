@@ -1,11 +1,12 @@
 import { stdin } from 'node:process';
 import { showCurrentPath, showErrorMessage, showGoodByeMessage } from "./messages.js";
-import { ADD_KEY, CAT_KEY, CD_KEY, CP_KEY, EXIT_KEY, HASH_KEY, LS_KEY, MV_KEY, OS_ARCHITECTURE_ARG, OS_CPUS_ARG, OS_EOL_ARG, OS_HOMEDIR_ARG, OS_KEY, OS_USERNAME_ARG, RM_KEY, RN_KEY, UP_KEY } from './constants.js';
+import { ADD_KEY, CAT_KEY, CD_KEY, COMPRESS_KEY, CP_KEY, DECOMPRESS_KEY, EXIT_KEY, HASH_KEY, LS_KEY, MV_KEY, OS_ARCHITECTURE_ARG, OS_CPUS_ARG, OS_EOL_ARG, OS_HOMEDIR_ARG, OS_KEY, OS_USERNAME_ARG, RM_KEY, RN_KEY, UP_KEY } from './constants.js';
 import { changeDir, readDir } from './nwd.js';
 import { copyFile, createNewFile, deleteFile, moveFile, readFileWithStream, renameFile } from './files.js';
 import { currentPath } from '../index.js';
 import { printArchitecture, printCPUS, printEOL, printHomeDir, printUserName } from './os.js';
 import { printHash } from './hash.js';
+import { compressFile, decompressFile } from './zip.js';
 
 export const listenCli = () => {
   stdin.on('data', async (data) => {
@@ -49,6 +50,10 @@ export const listenCli = () => {
       }
     } else if (inputData.startsWith(HASH_KEY)) {
       printHash(inputData.slice(HASH_KEY.length).trim());
+    } else if (inputData.startsWith(COMPRESS_KEY)) {
+      compressFile(inputData.slice(COMPRESS_KEY.length).trim());
+    } else if (inputData.startsWith(DECOMPRESS_KEY)) {
+      decompressFile(inputData.slice(DECOMPRESS_KEY.length).trim());
     } else {
       showErrorMessage();
       showCurrentPath(currentPath.curPath);

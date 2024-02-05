@@ -27,9 +27,13 @@ export const createNewFile = async (fileName) => {
     if (err) {
         writeFile(newPath, '')
         .then(() => showCurrentPath(currentPath.curPath))
-        .catch(() => console.error(ERROR));
+        .catch(() => {
+          console.error(ERROR);
+          showCurrentPath(currentPath.curPath);
+        });
     } else {
       console.error(ERROR);
+      showCurrentPath(currentPath.curPath);
     }
   });
 }
@@ -48,15 +52,20 @@ export const renameFile = async (argsString) => {
           if (err) {
             rename(fileOldPath, fileNewPath)
             .then(() => showCurrentPath(currentPath.curPath))
-            .catch(() => console.error(ERROR));
+            .catch(() => {
+              console.error(ERROR);
+              showCurrentPath(currentPath.curPath);
+            });
           } else {
             console.error(ERROR);
+            showCurrentPath(currentPath.curPath);
           }
         });
       }
     });
   } catch (err) {
     console.error(err);
+    showCurrentPath(currentPath.curPath);
   }
 };
 
