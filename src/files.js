@@ -22,7 +22,7 @@ export const readFileWithStream = async (pathTo) => {
       });
       readStream.on('error', () => {
         console.error(ERROR);
-        showCurrentPath(currentPath.curPath);
+        // showCurrentPath(currentPath.curPath);
       });
     };
   });
@@ -87,12 +87,12 @@ export const copyFile = async (argsString) => {
     const readStream = createReadStream(fileOldPath, 'utf-8');
     readStream.on('error', () => {
       console.error(ERROR);
-      showCurrentPath(currentPath.curPath);
+      // showCurrentPath(currentPath.curPath);
     });
     const writeStream = createWriteStream(fileNewPath);
     writeStream.on('error', () => {
       console.error(ERROR);
-      showCurrentPath(currentPath.curPath);
+      // showCurrentPath(currentPath.curPath);
     });
     readStream.pipe(writeStream);
     showCurrentPath(currentPath.curPath);
