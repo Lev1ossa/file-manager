@@ -3,12 +3,13 @@ import { readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { currentPath } from "../index.js";
 import { showCurrentPath } from './messages.js';
+import { ERROR } from './constants.js';
 
 export const changeDir = (pathTo) => {
   const newPath = path.resolve(currentPath.curPath, pathTo);
   access(newPath, constants.F_OK, (err) => {
     if (err) {
-      console.error('Operation failed');
+      console.error(ERROR);
       showCurrentPath(currentPath.curPath);
     } else {
       currentPath.curPath = newPath;

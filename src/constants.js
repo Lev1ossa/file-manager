@@ -13,3 +13,4 @@ export const OS_KEY = 'os';
 export const HASH_KEY = 'hash';
 export const COMPRESS_KEY = 'compress';
 export const DECOMPRESS_KEY = 'decompress';
+export const ERROR = 'Operation failed';
